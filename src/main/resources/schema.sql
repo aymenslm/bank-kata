@@ -1,0 +1,28 @@
+DROP TABLE IF EXISTS ACCOUNT;
+DROP TABLE IF EXISTS OPERATION;
+DROP TABLE IF EXISTS CLIENT;
+
+CREATE TABLE CLIENT (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  first_name VARCHAR(250) NOT NULL,
+  last_name VARCHAR(250) NOT NULL
+);
+
+
+
+CREATE TABLE ACCOUNT (
+  id VARCHAR (250) PRIMARY KEY,
+  balance decimal NOT NULL,
+  client_id int NOT NULL
+);
+
+
+CREATE TABLE OPERATION (
+  id INT AUTO_INCREMENT  PRIMARY KEY,
+  account_id VARCHAR(250) NOT NULL,
+  amount decimal NOT NULL,
+  operation_number decimal,
+  label VARCHAR(250) NOT NULL,
+  date_time timestamp NOT NULL
+);
+
