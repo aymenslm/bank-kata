@@ -6,9 +6,7 @@ import com.bank.repository.ClientRepository;
 import com.bank.service.impl.ClientServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -17,7 +15,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
+
 public class ClientServiceTest {
 
     @Mock

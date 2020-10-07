@@ -9,11 +9,9 @@ import com.bank.repository.OperationRepository;
 import com.bank.service.impl.AccountServiceImpl;
 import com.bank.service.impl.ClientServiceImpl;
 import com.bank.service.impl.OperationServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
 
 
 import java.util.Optional;
@@ -25,7 +23,6 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 public class AccountServiceTest {
 
     @Mock
@@ -40,7 +37,7 @@ public class AccountServiceTest {
     private AccountService accountService;
 
 
-    @Before
+    @BeforeEach
     public void before() {
         initMocks(this);
         initMocks(this);

@@ -10,13 +10,11 @@ import com.bank.service.impl.AccountServiceImpl;
 import com.bank.service.impl.ClientServiceImpl;
 import com.bank.service.impl.OperationServiceImpl;
 import com.bank.service.impl.AccountOperationsServiceImpl;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -32,7 +30,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
-@RunWith(SpringRunner.class)
+
 public class AccountOperationsServiceTest {
 
     @Mock
@@ -52,7 +50,7 @@ public class AccountOperationsServiceTest {
     private AccountOperationsService accountOperationsService;
 
 
-    @Before
+    @BeforeEach
     public void before() {
         initMocks(this);
         OperationService operationService = new OperationServiceImpl(operationRepositoryMock);
