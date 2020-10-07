@@ -1,8 +1,8 @@
 package com.bank.service;
 
+
 import com.bank.model.Account;
 import com.bank.model.Client;
-import com.bank.model.Operation;
 import com.bank.repository.AccountRepository;
 import com.bank.repository.ClientRepository;
 import com.bank.repository.OperationRepository;
@@ -12,28 +12,21 @@ import com.bank.service.impl.OperationServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.Mockito.verify;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 
 @RunWith(SpringRunner.class)
 public class AccountServiceTest {
-
-    @Mock
-    private AccountRepository accountRepositoryMock;
 
     @Mock
     private OperationRepository operationRepositoryMock;
@@ -41,8 +34,8 @@ public class AccountServiceTest {
     @Mock
     private ClientRepository clientRepositoryMock;
 
-    @Captor
-    private ArgumentCaptor<Account> accountCaptor;
+    @Mock
+    private AccountRepository accountRepositoryMock;
 
     private AccountService accountService;
 
@@ -50,37 +43,10 @@ public class AccountServiceTest {
     @Before
     public void before() {
         initMocks(this);
+        initMocks(this);
         OperationService operationService = new OperationServiceImpl(operationRepositoryMock);
         ClientService clientService = new ClientServiceImpl(clientRepositoryMock);
         accountService = new AccountServiceImpl(operationService,accountRepositoryMock,clientService);
-    }
-
-    @Test
-    public void testDepositOperation() {
-        // Given
-        Client client = new Client("Aymen","SLAMA");
-
-        Account account = new Account(client);
-        account.setId(UUID.randomUUID().toString());
-        account.setBalance(new BigDecimal(100));
-
-        Operation operation = new Operation(account,new BigDecimal(100),LocalDateTime.now(),"TEST");
-        operation.setId(1);
-
-        Optional<Account> accountOpt = Optional.of(account);
-        when(accountRepositoryMock.findById(account.getId())).thenReturn(accountOpt);
-
-        when(operationRepositoryMock.save(any(Operation.class))).thenReturn(operation);
-
-
-        accountService.deposit(account.getId(),new BigDecimal(100), LocalDateTime.now());
-
-        // Then
-        verify(accountRepositoryMock).save(accountCaptor.capture());
-
-        Account accountCaptured = accountCaptor.getValue();
-        assertThat(accountCaptured.getId()).isEqualTo(account.getId());
-        assertThat(accountCaptured.getBalance()).isEqualTo(new BigDecimal(200));
     }
 
     @Test
@@ -96,35 +62,5 @@ public class AccountServiceTest {
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(account);
         // Given
         assertThat(accountService.createAccount(client.getId())).isEqualTo(account);
-    }
-
-    @Test
-    public void testWithdrawalOperation() {
-
-        // Given
-        Client client = new Client("Aymen","SLAMA");
-
-        Account account = new Account(client);
-        account.setId(UUID.randomUUID().toString());
-        account.setBalance(new BigDecimal(100));
-
-        Operation operation = new Operation(account,new BigDecimal(100).negate(),LocalDateTime.now(),"TEST");
-        operation.setId(1);
-
-        Optional<Account> acc = Optional.of(account);
-        when(accountRepositoryMock.findById(account.getId())).thenReturn(acc);
-
-        when(operationRepositoryMock.save(any(Operation.class))).thenReturn(operation);
-
-
-        accountService.withdrawal(account.getId(),new BigDecimal(100), LocalDateTime.now());
-
-
-        // Then
-        verify(accountRepositoryMock).save(accountCaptor.capture());
-
-        Account accountCaptured = accountCaptor.getValue();
-        assertThat(accountCaptured.getId()).isEqualTo(account.getId());
-        assertThat(accountCaptured.getBalance()).isEqualTo(new BigDecimal(0));
     }
 }
