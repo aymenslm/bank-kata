@@ -41,7 +41,7 @@ public class AccountController {
     }
 
     @ApiOperation(value = "Get current account balance")
-    @PostMapping("/balance")
+    @GetMapping("/balance")
     public ResponseEntity accountBalance(@RequestParam String accountId) {
 
         return ResponseEntity.ok(accountService.getAccountBalance(accountId));

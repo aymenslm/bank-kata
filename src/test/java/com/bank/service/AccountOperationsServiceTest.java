@@ -14,6 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import java.math.BigDecimal;
@@ -42,6 +43,12 @@ public class AccountOperationsServiceTest {
     @Mock
     private ClientRepository clientRepositoryMock;
 
+    @InjectMocks
+    OperationServiceImpl operationService;
+
+    @InjectMocks
+    ClientServiceImpl clientService;
+
     @Captor
     private ArgumentCaptor<Account> accountCaptor;
 
@@ -53,15 +60,13 @@ public class AccountOperationsServiceTest {
     @BeforeEach
     public void before() {
         initMocks(this);
-        OperationService operationService = new OperationServiceImpl(operationRepositoryMock);
-        ClientService clientService = new ClientServiceImpl(clientRepositoryMock);
         accountService = new AccountServiceImpl(operationService,accountRepositoryMock,clientService);
         accountOperationsService = new AccountOperationsServiceImpl(operationService,accountService,accountRepositoryMock,operationRepositoryMock);
     }
 
     @Test
     public void testDepositOperation() {
-        // Given
+
         Client client = new Client("Aymen","SLAMA");
 
         Account account = new Account(client);
@@ -79,7 +84,7 @@ public class AccountOperationsServiceTest {
 
         accountOperationsService.deposit(account.getId(),new BigDecimal(100), LocalDateTime.now());
 
-        // Then
+
         verify(accountRepositoryMock).save(accountCaptor.capture());
 
         Account accountCaptured = accountCaptor.getValue();
@@ -90,7 +95,7 @@ public class AccountOperationsServiceTest {
     @Test
     public void testWithdrawalOperation() {
 
-        // Given
+
         Client client = new Client("Aymen","SLAMA");
 
         Account account = new Account(client);
@@ -109,7 +114,7 @@ public class AccountOperationsServiceTest {
         accountOperationsService.withdrawal(account.getId(),new BigDecimal(100), LocalDateTime.now());
 
 
-        // Then
+
         verify(accountRepositoryMock).save(accountCaptor.capture());
 
         Account accountCaptured = accountCaptor.getValue();
@@ -120,7 +125,7 @@ public class AccountOperationsServiceTest {
     @Test
     public void testPrintOperation() {
         Client client = new Client("Aymen","SLAMA");
-        // Given
+
         Account account = new Account(client);
         account.setId(UUID.randomUUID().toString());
         account.setBalance(new BigDecimal(100));
@@ -133,6 +138,6 @@ public class AccountOperationsServiceTest {
         when(operationRepositoryMock.findAllByAccount_Id(account.getId())).thenReturn(operationList);
 
 
-        assertThat(accountOperationsService.printStatement(account.getId())).isNotNull();
+        assertThat(accountOperationsService.printStatement(account.getId())).isNotEmpty();
     }
 }

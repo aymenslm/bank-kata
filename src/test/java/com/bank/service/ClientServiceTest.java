@@ -6,6 +6,7 @@ import com.bank.repository.ClientRepository;
 import com.bank.service.impl.ClientServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import java.util.Optional;
 
@@ -21,13 +22,13 @@ public class ClientServiceTest {
     @Mock
     private ClientRepository clientRepositoryMock;
 
-    ClientService clientService;
+    @InjectMocks
+    ClientServiceImpl clientService;
 
 
     @Before
     public void before() {
         initMocks(this);
-        clientService = new ClientServiceImpl(clientRepositoryMock);
     }
 
     @Test
@@ -38,7 +39,10 @@ public class ClientServiceTest {
         when(clientRepositoryMock.findById(client.getId())).thenReturn(clientOptional);
         when(clientRepositoryMock.save(any(Client.class))).thenReturn(client);
 
+        Client createdClient = clientService.createClient(client);
 
-        assertThat(clientService.createClient(client)).isEqualTo(client);
+
+        assertThat(createdClient).isEqualTo(client);
+        assertThat(clientService.findClient(1)).isEqualTo(createdClient);
     }
 }

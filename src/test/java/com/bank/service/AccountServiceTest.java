@@ -48,7 +48,7 @@ public class AccountServiceTest {
 
     @Test
     public void testCreateAccount(){
-        // Given
+
         Client client = new Client("Aymen","SLAMA");
         client.setId(1);
         Optional<Client> clientOptional = Optional.of(client);
@@ -57,7 +57,7 @@ public class AccountServiceTest {
         Account account = new Account(client);
         account.setId(UUID.randomUUID().toString());
         when(accountRepositoryMock.save(any(Account.class))).thenReturn(account);
-        // Given
+
         assertThat(accountService.createAccount(client.getId())).isEqualTo(account);
     }
 }
